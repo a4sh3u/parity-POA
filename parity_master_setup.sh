@@ -4,7 +4,7 @@
 # install parity #
 ##################
 apt update -y; apt install -y jq
-curl https://get.parity.io | bash
+curl -kL https://get.parity.io | bash
 parity -v
 mkdir ./parity; cd ./parity
 

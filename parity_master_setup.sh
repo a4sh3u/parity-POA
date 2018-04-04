@@ -129,6 +129,10 @@ reseal_on_txs = "none"
 [ui]
 force = true
 path = "./signer"
+[rpc]
+interface = "all"
+cors = ["all"]
+hosts = ["all"]
 EOL
 
 ################
@@ -137,8 +141,9 @@ EOL
 parity --config node0.toml >/var/log/parity.log 2>&1 &
 # tail -f /var/log/parity.log
 while [ -z $ENODE_ID ]; do
-  sleep 1
+  sleep 2
   ENODE_ID=$(curl -s --data '{"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}' -H "Content-Type: application/json" -X POST localhost:8545 | awk -F '"' '{print $8}')
+  sleep 2
 done
 echo "Parity started with enode_id : $ENODE_ID"
 ##########################

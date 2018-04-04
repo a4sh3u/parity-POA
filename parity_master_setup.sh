@@ -128,6 +128,8 @@ engine_signer = "$ADDRESS_VALIDATOR1"
 reseal_on_txs = "none"
 [ui]
 force = true
+interface = "$mypublicip"
+path = "./signer"
 EOL
 
 ################
@@ -135,7 +137,8 @@ EOL
 ################
 parity --config node0.toml >/var/log/parity.log 2>&1 &
 # tail -f /var/log/parity.log
-export ENODE_ID=$(curl -s --data '{"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}' -H "Content-Type: application/json" -X POST localhost:8545 | awk -F '"' '{print $8}')
+sleep 5
+ENODE_ID=$(curl -s --data '{"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}' -H "Content-Type: application/json" -X POST localhost:8545 | awk -F '"' '{print $8}')
 echo "Parity started with enode_id : $ENODE_ID"
 ##########################
 # export validator2 keys #

@@ -128,7 +128,6 @@ engine_signer = "$ADDRESS_VALIDATOR1"
 reseal_on_txs = "none"
 [ui]
 force = true
-interface = "$mypublicip"
 path = "./signer"
 EOL
 

@@ -133,6 +133,7 @@ path = "./signer"
 interface = "all"
 cors = ["all"]
 hosts = ["all"]
+apis = ["all"]
 EOL
 
 ################

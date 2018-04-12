@@ -147,9 +147,75 @@ while [ -z $ENODE_ID ]; do
   sleep 2
 done
 echo "Parity started with enode_id : $ENODE_ID"
-##########################
-# export validator2 keys #
-##########################
+##############################
+# export validator2 settings #
+##############################
+echo "Run the below script as it is on one of the validator node of yor choosing"
+export ADDRESS_VALIDATOR1=$ADDRESS_VALIDATOR1; export ADDRESS_VALIDATOR2=$ADDRESS_VALIDATOR2; export ADDRESS_USER=$ADDRESS_USER
+KEYFILE_VALIDATOR2=$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}')
+echo "
+cat > ./chain.json <<EOL
+$(cat chain.json)
+EOL
+
+mkdir -p keys/DemoPoA
+cat > ./$KEYFILE_VALIDATOR2 << EOL
+$(cat $KEYFILE_VALIDATOR2)
+EOL
+
+parity account import ./keys/DemoPoA/ --chain chain.json
+cat > ./.parity_password_validator2 << EOL
+$(cat ./.parity_password_validator2)
+EOL
+
+cat > ./node1.toml <<EOL
+[parity]
+chain = "chain.json"
+base_path = "."
+[account]
+unlock = ["$ADDRESS_VALIDATOR2"]
+password = ["./.parity_password_validator2"]
+[mining]
+engine_signer = "$ADDRESS_VALIDATOR2"
+reseal_on_txs = "none"
+[ui]
+force = true
+path = "./signer"
+[rpc]
+interface = "all"
+cors = ["all"]
+hosts = ["all"]
+apis = ["all"]
+EOL
+
+"
+
+$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}')
+cat > ./$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}') << EOL
+$(cat $(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}'))
+EOL
+parity account import ./keys/DemoPoA/ --chain chain.json
+cat > ./node1.toml <<EOL
+[parity]
+chain = \"chain.json\"
+base_path = \".\"
+[account]
+unlock = [\"$ADDRESS_VALIDATOR2\"]
+password = [\"./.parity_password_validator2\"]
+[mining]
+engine_signer = \"$ADDRESS_VALIDATOR2\"
+reseal_on_txs = \"none\"
+[ui]
+force = true
+path = \"./signer\"
+[rpc]
+interface = \"all\"
+cors = [\"all\"]
+hosts = [\"all\"]
+apis = [\"all\"]
+EOL
+"
+
 find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}'
 echo "Copy the file obtained above to the node where the second validator would be active"
 echo "export ADDRESS_VALIDATOR1=$ADDRESS_VALIDATOR1; export ADDRESS_VALIDATOR2=$ADDRESS_VALIDATOR2; export ADDRESS_USER=$ADDRESS_USER"

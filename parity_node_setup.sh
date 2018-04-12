@@ -59,7 +59,7 @@ EOL
 
 
 mkdir -p keys/DemoPoA
-echo "Copy the file obtained from master node"
+echo "Copy the file obtained from master node and the validator2 password file"
 parity account import ./keys/DemoPoA/ --chain chain.json
 ADDRESS_VALIDATOR2=$(parity account list --chain chain.json --keys-path keys)
 ########################
@@ -78,6 +78,14 @@ password = ["./.parity_password_validator2"]
 [mining]
 engine_signer = "$ADDRESS_VALIDATOR2"
 reseal_on_txs = "none"
+[ui]
+force = true
+path = "./signer"
+[rpc]
+interface = "all"
+cors = ["all"]
+hosts = ["all"]
+apis = ["all"]
 EOL
 
 ################

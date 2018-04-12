@@ -232,11 +232,8 @@ cat > ./node2.toml <<EOL
 chain = \"chain.json\"
 base_path = \".\"
 [account]
-unlock = [\"$ADDRESS_VALIDATOR2\"]
-password = [\"./.parity_password_validator2\"]
-[mining]
-engine_signer = \"$ADDRESS_VALIDATOR2\"
-reseal_on_txs = \"none\"
+unlock = [\"$ADDRESS_USER\"]
+password = [\"./.parity_password_password\"]
 [ui]
 force = true
 path = \"./signer\"

@@ -159,7 +159,7 @@ $(cat chain.json)
 EOL
 
 mkdir -p keys/DemoPoA
-cat > ./$KEYFILE_VALIDATOR2 << EOL
+cat > $KEYFILE_VALIDATOR2 << EOL
 $(cat $KEYFILE_VALIDATOR2)
 EOL
 
@@ -188,37 +188,9 @@ hosts = ["all"]
 apis = ["all"]
 EOL
 
+parity --config node1.toml --bootnodes $ENODE_ID >/var/log/parity.log 2>&1 &
 "
 
-$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}')
-cat > ./$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}') << EOL
-$(cat $(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}'))
-EOL
-parity account import ./keys/DemoPoA/ --chain chain.json
-cat > ./node1.toml <<EOL
-[parity]
-chain = \"chain.json\"
-base_path = \".\"
-[account]
-unlock = [\"$ADDRESS_VALIDATOR2\"]
-password = [\"./.parity_password_validator2\"]
-[mining]
-engine_signer = \"$ADDRESS_VALIDATOR2\"
-reseal_on_txs = \"none\"
-[ui]
-force = true
-path = \"./signer\"
-[rpc]
-interface = \"all\"
-cors = [\"all\"]
-hosts = [\"all\"]
-apis = [\"all\"]
-EOL
-"
-
-find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}'
-echo "Copy the file obtained above to the node where the second validator would be active"
-echo "export ADDRESS_VALIDATOR1=$ADDRESS_VALIDATOR1; export ADDRESS_VALIDATOR2=$ADDRESS_VALIDATOR2; export ADDRESS_USER=$ADDRESS_USER"
 ##################################################################################
 # full removal of all traces of parity, associated accounts and the chain itself #
 ##################################################################################

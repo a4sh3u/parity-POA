@@ -154,6 +154,7 @@ echo "Run the below script as it is on one of the validator node of yor choosing
 export ADDRESS_VALIDATOR1=$ADDRESS_VALIDATOR1; export ADDRESS_VALIDATOR2=$ADDRESS_VALIDATOR2; export ADDRESS_USER=$ADDRESS_USER
 KEYFILE_VALIDATOR2=$(find ./keys -type f |xargs grep ${ADDRESS_VALIDATOR2:2} | awk -F ':' '{print $1}')
 echo "
+mkdir ./parity; cd ./parity
 cat > ./chain.json <<EOL
 $(cat chain.json)
 EOL
@@ -170,22 +171,22 @@ EOL
 
 cat > ./node1.toml <<EOL
 [parity]
-chain = "chain.json"
-base_path = "."
+chain = \"chain.json\"
+base_path = \".\"
 [account]
-unlock = ["$ADDRESS_VALIDATOR2"]
-password = ["./.parity_password_validator2"]
+unlock = [\"$ADDRESS_VALIDATOR2\"]
+password = [\"./.parity_password_validator2\"]
 [mining]
-engine_signer = "$ADDRESS_VALIDATOR2"
-reseal_on_txs = "none"
+engine_signer = \"$ADDRESS_VALIDATOR2\"
+reseal_on_txs = \"none\"
 [ui]
 force = true
-path = "./signer"
+path = \"./signer\"
 [rpc]
-interface = "all"
-cors = ["all"]
-hosts = ["all"]
-apis = ["all"]
+interface = \"all\"
+cors = [\"all\"]
+hosts = [\"all\"]
+apis = [\"all\"]
 EOL
 
 parity --config node1.toml --bootnodes $ENODE_ID >/var/log/parity.log 2>&1 &

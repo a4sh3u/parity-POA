@@ -222,7 +222,7 @@ cat > $KEYFILE_USER << EOL
 $(cat $KEYFILE_USER)
 EOL
 
-parity account import ./keys/DemoPoA/ --chain chain.json
+parity account import ./keys/DemoPoA/
 cat > ./.parity_password_user << EOL
 $(cat ./.parity_password_user)
 EOL
@@ -234,9 +234,6 @@ base_path = \".\"
 [account]
 unlock = [\"$ADDRESS_USER\"]
 password = [\"./.parity_password_user\"]
-[mining]
-engine_signer = \"$ADDRESS_VALIDATOR2\"
-reseal_on_txs = \"none\"
 [ui]
 force = true
 path = \"./signer\"
